@@ -1,0 +1,257 @@
+<?php
+header( 'Access-Control-Allow-Origin: *' );
+date_default_timezone_set( 'Asia/Kolkata' );
+include( "dbConnect.php" );
+include( "common_function.php" );
+
+$quotation_ids=explode(',',$_GET['general']);
+
+$update_mem=explode(',',$_GET['general_updt']);
+$not_null=$_GET['not_null'];
+$sub_form=$_GET['sub_form'];
+$country_id = $_GET['country_id'];
+$state_id = $_GET['state_id'];
+$district_id = $_GET['district_id'];
+$city_id = $_GET['city_id'];
+$area_id = $_GET['area_id'];
+
+if(empty($quotation_ids))
+{
+    echo 'fdg';
+}
+//$count=$_GET['count'];
+
+if($not_null=='0')
+{
+ $statement = $pdo_conn->prepare("INSERT INTO  fact_finding_subform (user_id, random_no, family_head_name, gender,age, relationship,edu_qualification, educ_qualification_inp, marital_status, voter_id, voter_id_in, bussiness_occupation, work_location, blood_group,for_maktab, child_adult_for_maktab, child_adult_for_maktab_age, miss_maktab, allin_hifz_course, interest_in_niswan, family_women_interest_in_1yr_muslim_course,country_id,state_id,district_id,city_id,area_id,aadharr_id,aadharr_id_in) 
+          VALUES (:user_id, :random_no, :family_head_name, :gender,:age, :relationship,:edu_qualification, :educ_qualification_inp, :marital_status, :voter_id, :voter_id_in, :bussiness_occupation,:work_location, :blood_group, :for_maktab,:child_adult_for_maktab, :child_adult_for_maktab_age, :miss_maktab, :allin_hifz_course, :interest_in_niswan, :family_women_interest_in_1yr_muslim_course,:country_id,:state_id,:district_id,:city_id,:area_id,aadharr_id,:aadharr_id_in)");
+
+
+
+
+ $pdo_array= array(
+	 	':user_id'=>$_GET['user_id'],
+		':random_no'=>$_GET['unique_no'],
+		':family_head_name'=>$_GET['famil_head_main'],
+		':gender'=>$_GET['gendermain'],
+		':age'=>$_GET['age_main'],
+		':relationship'=>$_GET['relation_main'],
+		':edu_qualification'=>$_GET['edu_main'],
+		':educ_qualification_inp'=>$_GET['edu_in_main'],
+		':marital_status'=>$_GET['mari_st_main'],
+		':voter_id'=>$_GET['voter_main'],
+		':voter_id_in'=>$_GET['voter_in_main'],
+		':bussiness_occupation'=>$_GET['busines_main'],
+		':work_location'=>$_GET['wrklt_main'],
+		':blood_group'=>$_GET['blood_main'],
+		':for_maktab'=>$_GET['childcls_main'],
+		':child_adult_for_maktab'=>$_GET['adu_or_chicls_main'],
+		':child_adult_for_maktab_age'=>$_GET['age_chilcls_main'],
+		':miss_maktab'=>$_GET['missclss_main'],
+		':allin_hifz_course'=>$_GET['allin_hifzcls_main'],
+		':interest_in_niswan'=>$_GET['niswancls_main'],
+		':family_women_interest_in_1yr_muslim_course'=>$_GET['faml_wmcls_main'],
+		':country_id'=>$_GET['country_id'],
+		':state_id'=>$_GET['state_id'],
+		':district_id'=>$_GET['district_id'],
+		':city_id'=>$_GET['city_id'],
+		':area_id'=>$_GET['area_id'],
+		':aadharr_id_in'=>$_GET['aadharr_id_in'],
+		':aadharr_id'=>$_GET['aadharr_id'],
+
+		);
+		
+  $result = $statement->execute($pdo_array);
+if ($result == TRUE)	
+	{
+		echo $msg = "Successfully Created";
+	}
+	else 
+	{ 
+		$array = array('error'=> $statement->errorinfo());
+		echo json_encode($array);
+		
+	}
+
+if($_GET['general']!='')
+{
+	foreach($quotation_ids as $val)
+	{
+	 
+$valexp=explode('-',$val);
+
+
+
+   $statement = $pdo_conn->prepare("INSERT INTO  fact_finding_subform (user_id, random_no, family_head_name, gender,age, relationship,edu_qualification, educ_qualification_inp, marital_status, voter_id, voter_id_in, bussiness_occupation, work_location, blood_group,for_maktab, child_adult_for_maktab, child_adult_for_maktab_age, miss_maktab, allin_hifz_course, interest_in_niswan, family_women_interest_in_1yr_muslim_course,country_id,state_id,district_id,city_id,area_id,aadharr_id_in) 
+          VALUES (:user_id, :random_no, :family_head_name, :gender,:age, :relationship,:edu_qualification, :educ_qualification_inp, :marital_status, :voter_id, :voter_id_in, :bussiness_occupation,:work_location, :blood_group, :for_maktab,:child_adult_for_maktab, :child_adult_for_maktab_age, :miss_maktab, :allin_hifz_course, :interest_in_niswan, :family_women_interest_in_1yr_muslim_course,:country_id,:state_id,:district_id,:city_id,:area_id,:aadharr_id,:aadharr_id_in)");
+
+
+
+
+ $pdo_array= array(
+	 	':user_id'=>$valexp[0],
+		':random_no'=>$valexp[1],
+		':family_head_name'=>$valexp[2],
+		':gender'=>$valexp[3],
+		':age'=>$valexp[4],
+		':relationship'=>$valexp[5],
+		':marital_status'=>$valexp[8],
+		':voter_id'=>$valexp[9],
+		':voter_id_in'=>$valexp[10],
+		':bussiness_occupation'=>$valexp[11],
+		':work_location'=>$valexp[12],
+		':edu_qualification'=>$valexp[6],
+		':educ_qualification_inp'=>$valexp[7],
+		':blood_group'=>$valexp[13],
+		':for_maktab'=>$valexp[14],
+		':child_adult_for_maktab'=>$valexp[15],
+		':child_adult_for_maktab_age'=>$valexp[16],
+		':miss_maktab'=>$valexp[17],
+		':allin_hifz_course'=>$valexp[18],
+		':interest_in_niswan'=>$valexp[19],
+		':family_women_interest_in_1yr_muslim_course'=>$valexp[20],
+		':country_id'=>$_GET['country_id'],
+		':state_id'=>$_GET['state_id'],
+		':district_id'=>$_GET['district_id'],
+		':city_id'=>$_GET['city_id'],
+		':area_id'=>$_GET['area_id'],
+		':aadharr_id_in'=>$_GET['aadharr_id_in'],
+		':aadharr_id'=>$_GET['aadharr_id'],
+
+		);
+		
+  $result = $statement->execute($pdo_array);
+  if ($result == TRUE)	
+	{
+		echo $msg = "Successfully Created";
+	}
+	else 
+	{ 
+		$array = array('error'=> $statement->errorinfo());
+		echo json_encode($array);
+		
+	}
+
+}
+}
+}
+else if($not_null=='1')
+{
+   	foreach($update_mem as $val)
+	{
+	    $valexp=explode('-',$val);
+	    echo $valexp[21].'familt_men       ';
+	   // echo "UPDATE fact_finding_subform SET  user_id='".$valexp[1]."',family_head_name='".$valexp[3]."',gender='".$valexp[4]."',age='".$valexp[5]."',relationship='".$valexp[6]."',edu_qualification='".$valexp[7]."',educ_qualification_inp='".$valexp[8]."',marital_status='".$valexp[9]."',voter_id='".$valexp[10]."',voter_id_in	='".$valexp[11]."',bussiness_occupation	='".$valexp[12]."',work_location='".$valexp[13]."',blood_group='".$valexp[14]."',for_maktab='".$valexp[15]."',child_adult_for_maktab='".$valexp[16]."',child_adult_for_maktab_age='".$valexp[17]."',miss_maktab='".$valexp[18]."',allin_hifz_course='".$valexp[19]."',interest_in_niswan='".$valexp[20]."','family_women_interest_in_1yr_muslim_course='".$valexp[21]."'WHERE  random_no='".$valexp[2]."' AND id='".$valexp[0]."' ";
+        $prepare_survey = $pdo_conn->prepare("UPDATE fact_finding_subform SET  user_id='".$valexp[1]."',aadharr_id='".$valexp[23]."',aadharr_id_in	='".$valexp[24]."',family_head_name='".$valexp[3]."',gender='".$valexp[4]."',age='".$valexp[5]."',relationship='".$valexp[6]."',edu_qualification='".$valexp[7]."',educ_qualification_inp='".$valexp[8]."',marital_status='".$valexp[9]."',voter_id='".$valexp[10]."',voter_id_in	='".$valexp[11]."',bussiness_occupation	='".$valexp[12]."',work_location='".$valexp[13]."',blood_group='".$valexp[14]."',for_maktab='".$valexp[15]."',child_adult_for_maktab='".$valexp[16]."',child_adult_for_maktab_age='".$valexp[17]."',miss_maktab='".$valexp[18]."',allin_hifz_course='".$valexp[19]."',interest_in_niswan='".$valexp[20]."',family_women_interest_in_1yr_muslim_course='".$valexp[21]."' ,aadharr_id='".$valexp[10]."',aadharr_id_in	='".$valexp[11]."' WHERE  random_no='".$valexp[2]."' AND id='".$valexp[0]."' ");	
+        $result = $prepare_survey->execute();
+         if ($result == TRUE)	
+	{
+		echo $msg = "Successfully update";
+	}
+	else 
+	{ 
+		$array = array('error'=> $prepare_survey->errorinfo());
+		echo json_encode($array);
+	}
+      
+	}
+	if($sub_form=='1')
+	{
+	    
+	foreach($quotation_ids as $val)
+	{
+	 
+$valexp=explode('-',$val);
+
+
+
+   $statement = $pdo_conn->prepare("INSERT INTO  fact_finding_subform (user_id, random_no, family_head_name, gender,age, relationship,edu_qualification, educ_qualification_inp, marital_status, voter_id, voter_id_in, bussiness_occupation, work_location, blood_group,for_maktab, child_adult_for_maktab, child_adult_for_maktab_age, miss_maktab, allin_hifz_course, interest_in_niswan, family_women_interest_in_1yr_muslim_course,country_id,state_id,district_id,city_id,area_id,aadharr_id,aadharr_id_in) 
+          VALUES (:user_id, :random_no, :family_head_name, :gender,:age, :relationship,:edu_qualification, :educ_qualification_inp, :marital_status, :voter_id, :voter_id_in, :bussiness_occupation,:work_location, :blood_group, :for_maktab,:child_adult_for_maktab, :child_adult_for_maktab_age, :miss_maktab, :allin_hifz_course, :interest_in_niswan, :family_women_interest_in_1yr_muslim_course,:country_id,:state_id,:district_id,:city_id,:area_id,:aadharr_id,:aadharr_id_in)");
+
+
+
+
+ $pdo_array= array(
+	 	':user_id'=>$valexp[0],
+		':random_no'=>$valexp[1],
+		':family_head_name'=>$valexp[2],
+		':gender'=>$valexp[3],
+		':age'=>$valexp[4],
+		':relationship'=>$valexp[5],
+		':edu_qualification'=>$valexp[6],
+		':educ_qualification_inp'=>$valexp[7],
+		':marital_status'=>$valexp[8],
+		':voter_id'=>$valexp[9],
+		':voter_id_in'=>$valexp[10],
+		':bussiness_occupation'=>$valexp[11],
+		':work_location'=>$valexp[12],
+		':blood_group'=>$valexp[13],
+		':for_maktab'=>$valexp[14],
+		':child_adult_for_maktab'=>$valexp[15],
+		':child_adult_for_maktab_age'=>$valexp[16],
+		':miss_maktab'=>$valexp[17],
+		':allin_hifz_course'=>$valexp[18],
+		':interest_in_niswan'=>$valexp[19],
+		':family_women_interest_in_1yr_muslim_course'=>$valexp[20],
+		':country_id'=>$_GET['country_id'],
+		':state_id'=>$_GET['state_id'],
+		':district_id'=>$_GET['district_id'],
+		':city_id'=>$_GET['city_id'],
+		':area_id'=>$_GET['area_id'],
+		);
+		
+  $result = $statement->execute($pdo_array);
+  if ($result == TRUE)	
+	{
+		echo $msg = "Successfully Created";
+	}
+	else 
+	{ 
+		$array = array('error'=> $statement->errorinfo());
+		echo json_encode($array);
+		
+	}
+
+}
+	}
+}
+
+
+
+if($_GET['action']=="update") 
+{
+/*
+     $prepare_survey = $pdo_conn->prepare("UPDATE fact_finding_form SET  family_head_name='".$_GET['family_head_name']."',gender='".$_GET['gender']."',age='".$_GET['age']."',relationship='".$_GET['relationship']."',edu_qualification='".$_GET['edu_qualification']."',educ_qualification_inp='".$_GET['educ_qualification_inp']."',marital_status='".$_GET['marital_status']."',voter_id='".$_GET['voter_id']."',voter_id_in='".$_GET['voter_id_in']."',bussiness_occupation	='".$_GET['bussiness_occupation']."',work_location	='".$_GET['work_location']."',blood_group='".$_GET['blood_group']."',for_maktab='".$_GET['for_maktab']."',child_adult_for_maktab='".$_GET['child_adult_for_maktab']."',child_adult_for_maktab_age='".$_GET['child_adult_for_maktab_age']."',miss_maktab='".$_GET['miss_maktab']."',allin_hifz_course='".$_GET['allin_hifz_course']."',interest_in_niswan='".$_GET['interest_in_niswan']."',family_women_interest_in_1yr_muslim_course='".$_GET['family_women_interest_in_1yr_muslim_course']."',family_member_name_2='".$_GET['family_member_name_2']."',family_member_name_3='".$_GET['family_member_name_3']."' ,family_member_name_4='".$_GET['family_member_name_4']."',family_member_name_5='".$_GET['family_member_name_5']."',family_member_name_6='".$_GET['family_member_name_6']."',family_member_name_7='".$_GET['family_member_name_7']."',family_member_name_8='".$_GET['family_member_name_8']."',family_member_name_9='".$_GET['family_member_name_9']."'WHERE  unique_no='".$_GET['unique_no']."' ");	
+        $result = $prepare_survey->execute();
+
+echo "SuccessFully update";
+}
+
+if($_GET['action']=="back") 
+{
+echo "SELECT * FROM fact_finding_form where unique_no='".$_POST['unique_no']."' ";
+$login_main=$pdo_conn->prepare("SELECT * FROM fact_finding_form where unique_no='".$_POST['unique_no']."' "); 
+
+	$login_main->execute();
+	$login_main_check = $login_main->fetchAll();
+	$unique_no=$login_main_check[0]['unique_no'];*/
+}
+
+if($_GET['action']=='delete')
+{
+     
+	$pdo_statement="DELETE FROM fact_finding_subform where id='".$_GET['id']."' ";
+
+	$result=$pdo_conn->exec($pdo_statement);
+	
+	
+	//$pdo_payment_followups="UPDATE paymentfollowups SET delete_status='1' where customer_name=".$_POST['customer_id'];
+	//$result_payment_followups = $pdo_conn->exec($pdo_payment_followups);
+
+	if(!empty($result)) 
+	{
+		echo $msg = "Successfully Deleted";
+	}
+}
+
+	?>
